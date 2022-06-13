@@ -3,6 +3,22 @@ class Builder {
     this.val = val;
   }
 
+  plus() {
+    console.log("plus");
+  }
+
+  minus() {
+    console.log("minus");
+  }
+
+  multiply() {
+    console.log("multiply");
+  }
+
+  divide() {
+    console.log("divide");
+  }
+
   get() {
     return this.val;
   }
@@ -45,7 +61,7 @@ class IntBuilder extends Builder {
 }
 
 function StringBuilder(str = "") {
-  this.val = str;
+  Object.assign(this, new Builder(str));
 }
 
 StringBuilder.prototype = Object.create(Builder.prototype);
