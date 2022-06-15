@@ -1,3 +1,7 @@
+function sum(initialValue, args) {
+  return args.reduce((total, arg) => total + arg, initialValue);
+}
+
 class Builder {
   constructor(val) {
     this.val = val;
@@ -30,12 +34,12 @@ class IntBuilder extends Builder {
   }
 
   plus(...nums) {
-    this.val += nums.reduce((total, num) => total + num, 0);
+    this.val += sum(0, nums);
     return this;
   }
 
   minus(...nums) {
-    this.val -= nums.reduce((total, num) => total + num, 0);
+    this.val -= sum(0, nums);
     return this;
   }
 
@@ -67,7 +71,7 @@ function StringBuilder(str = "") {
 StringBuilder.prototype = Object.create(Builder.prototype);
 
 StringBuilder.prototype.plus = function (...strings) {
-  this.val += strings.reduce((total, str) => total + str, "");
+  this.val += sum("", strings);
   return this;
 };
 
@@ -82,7 +86,7 @@ StringBuilder.prototype.multiply = function (n) {
 };
 
 StringBuilder.prototype.divide = function (n) {
-  this.val = this.val.slice(0, this.val.length / n);
+  this.val = this.val.slice(0, Math.floor(this.val.length / n));
   return this;
 };
 
