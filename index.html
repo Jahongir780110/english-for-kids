@@ -16,103 +16,44 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <header class="header">
-      <div class="container">
-        <span class="menu-icon">icon</span>
-        <input type="checkbox" class="toggle-mode" />
+    <header class="header mt-5">
+      <div class="container d-flex justify-content-between align-items-center">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            />
+          </svg>
+        </span>
+        <span class="toggle-mode d-flex align-items-center">
+          <span class="mode-text train active">Train</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+          <span class="mode-text play">Play</span>
+        </span>
       </div>
     </header>
 
-    <sidebar class="sidebar">
+    <sidebar class="sidebar hidden">
       <nav>
-        <ul class="categories">
-          <li class="category-item">Main Page</li>
-          <li class="category-item">Animals 1</li>
-          <li class="category-item">Animals 2</li>
-          <li class="category-item">Animals 2</li>
-          <li class="category-item">Food 1</li>
-          <li class="category-item">Food 2</li>
-          <li class="category-item">Emotions</li>
-          <li class="category-item">Places</li>
-        </ul>
+        <ul class="categories"></ul>
       </nav>
+      <div class="backdrop hidden"></div>
     </sidebar>
 
-    <main class="main-content">
+    <main class="main-content mt-5">
       <div class="container">
         <h1 class="title">Train & Play</h1>
 
-        <ul class="category-cards">
-          <div class="row">
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-            <li class="category-card col-lg-3">
-              <img src="./img/failure.jpg" alt="fairy tales" />
-              <h3 class="title">Fairy tales</h3>
-              <div class="category-card__footer">
-                <span class="cards_count">8 cards</span>
-                <span class="mode"></span>
-              </div>
-            </li>
-          </div>
+        <ul class="category-cards mt-4">
+          <div class="row"></div>
         </ul>
       </div>
     </main>
 
-    <script src="./js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>

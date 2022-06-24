@@ -1,13 +1,5 @@
-const cards = [
-  [
-    "Action (set A)",
-    "Action (set B)",
-    "Animal (set A)",
-    "Animal (set B)",
-    "Clothes",
-    "Emotions",
-  ],
-  [
+const cards = {
+  "Action (set A)": [
     {
       word: "cry",
       translation: "плакать",
@@ -57,7 +49,7 @@ const cards = [
       audioSrc: "audio/jump.mp3",
     },
   ],
-  [
+  "Action (set B)": [
     {
       word: "open",
       translation: "открывать",
@@ -107,7 +99,7 @@ const cards = [
       audioSrc: "audio/swim.mp3",
     },
   ],
-  [
+  "Animal (set A)": [
     {
       word: "cat",
       translation: "кот",
@@ -157,7 +149,7 @@ const cards = [
       audioSrc: "audio/sheep.mp3",
     },
   ],
-  [
+  "Animal (set B)": [
     {
       word: "bird",
       translation: "птица",
@@ -207,7 +199,7 @@ const cards = [
       audioSrc: "audio/dolphin.mp3",
     },
   ],
-  [
+  Clothes: [
     {
       word: "skirt",
       translation: "юбка",
@@ -257,7 +249,7 @@ const cards = [
       audioSrc: "audio/shoe.mp3",
     },
   ],
-  [
+  Emotions: [
     {
       word: "sad",
       translation: "грустный",
@@ -307,6 +299,8 @@ const cards = [
       audioSrc: "audio/laugh.mp3",
     },
   ],
-];
+  Food: [],
+  Toys: [],
+};
 
 export default cards;
