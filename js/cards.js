@@ -299,8 +299,106 @@ const cards = {
       audioSrc: "audio/laugh.mp3",
     },
   ],
-  Food: [],
-  Toys: [],
+  Food: [
+    {
+      word: "squid",
+      translation: "кальмар",
+      image: "img/squid.jpg",
+      audioSrc: "audio/squid.mp3",
+    },
+    {
+      word: "courgette",
+      translation: "кабачок",
+      image: "img/courgette.jpg",
+      audioSrc: "audio/courgette.mp3",
+    },
+    {
+      word: "garlic",
+      translation: "чеснок",
+      image: "img/garlic.jpg",
+      audioSrc: "audio/garlic.mp3",
+    },
+    {
+      word: "mushroom",
+      translation: "гриб",
+      image: "img/mushroom.jpg",
+      audioSrc: "audio/mushroom.mp3",
+    },
+    {
+      word: "cereal",
+      translation: "зерновой",
+      image: "img/cereal.jpg",
+      audioSrc: "audio/cereal.mp3",
+    },
+    {
+      word: "aubergine",
+      translation: "баклажан",
+      image: "img/aubergine.jpg",
+      audioSrc: "audio/aubergine.mp3",
+    },
+    {
+      word: "stew",
+      translation: "тушенка",
+      image: "img/stew.jpg",
+      audioSrc: "audio/stew.mp3",
+    },
+    {
+      word: "recipe",
+      translation: "рецепт",
+      image: "img/recipe.jpg",
+      audioSrc: "audio/recipe.mp3",
+    },
+  ],
+  Family: [
+    {
+      word: "family",
+      translation: "семья",
+      image: "img/family.jpg",
+      audioSrc: "audio/family.mp3",
+    },
+    {
+      word: "mother",
+      translation: "мать",
+      image: "img/mother.jpg",
+      audioSrc: "audio/mother.mp3",
+    },
+    {
+      word: "father",
+      translation: "отец",
+      image: "img/father.jpg",
+      audioSrc: "audio/father.mp3",
+    },
+    {
+      word: "sister",
+      translation: "сестра",
+      image: "img/sister.jpg",
+      audioSrc: "audio/sister.mp3",
+    },
+    {
+      word: "brother",
+      translation: "брат",
+      image: "img/brother.jpg",
+      audioSrc: "audio/brother.mp3",
+    },
+    {
+      word: "grandma",
+      translation: "бабушка",
+      image: "img/grandma.jpg",
+      audioSrc: "audio/grandma.mp3",
+    },
+    {
+      word: "grandpa",
+      translation: "дедушка",
+      image: "img/grandpa.jpg",
+      audioSrc: "audio/grandpa.mp3",
+    },
+    {
+      word: "pet",
+      translation: "домашнее животное",
+      image: "img/pet.jpg",
+      audioSrc: "audio/pet.mp3",
+    },
+  ],
 };
 
 export default cards;

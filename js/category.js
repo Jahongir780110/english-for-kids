@@ -1,56 +1,20 @@
 import cards from "./cards.js";
+import { toggleSidebar, playAudio, reverse } from "./helper.js";
+import {
+  menuBtn,
+  sidebar,
+  toggleCheckbox,
+  cardList,
+  title,
+} from "./elements.js";
 
 let isPlayMode = false;
 const field = new URLSearchParams(window.location.search).get("title");
 
-const menuBtn = document.querySelector(".menu-icon");
-const sidebar = document.querySelector(".sidebar");
-const toggleCheckbox = document.querySelector(".toggle-mode");
-const cardList = document.querySelector(".cards-list .row");
-const title = document.querySelector(".main-content .title");
-
-import {toggleSidebar} from "./helper.js";
-
-menuBtn.addEventListener("click", () => {
-  toggleSidebar();
-});
-
-sidebar.querySelector(".backdrop").addEventListener("click", () => {
-  toggleSidebar();
-});
-
-sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
-  toggleSidebar();
-});
-
 title.innerText = field;
 
-toggleCheckbox
-  .querySelector("input[type=checkbox]")
-  .addEventListener("change", (e) => {
-    const modeTexts = toggleCheckbox.querySelectorAll(".mode-text");
-    isPlayMode = e.target.checked;
-
-    if (isPlayMode) {
-      modeTexts[0].classList.remove("active");
-      modeTexts[1].classList.add("active");
-      cardList.querySelectorAll("li").forEach((card) => {
-        card.querySelector(".mode").classList.add("play");
-      });
-    } else {
-      modeTexts[0].classList.add("active");
-      modeTexts[1].classList.remove("active");
-      cardList.querySelectorAll("li").forEach((card) => {
-        card.querySelector(".mode").classList.remove("play");
-      });
-    }
-  });
-
 Object.keys(cards).forEach((card) => {
-  let actieClass = "";
-  if (field === card) {
-    actieClass = "active";
-  }
+  const actieClass = field === card ? "active" : "";
   const sideBarItem = `
       <li class="category-item ${actieClass}">
         <a href="./category.html?title=${card}">  
@@ -65,8 +29,6 @@ Object.keys(cards).forEach((card) => {
 
 cards[field].forEach((card) => {
   const li = document.createElement("li");
-
-  li.classList.add("col-lg-3");
   const cardElement = `
       <div class="cards-list__card">
         <img src="./${card.image}" alt="${card.word}" />
@@ -77,10 +39,50 @@ cards[field].forEach((card) => {
                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
             </svg>
         </div>
-        <div class="footer text-end p-3">
+        <div class="footer p-3">
             <span class="mode"></span>
         </div>
       </div>`;
+
+  li.classList.add("col-lg-3");
   li.innerHTML = cardElement;
   cardList.append(li);
+
+  li.querySelector(".cards-list__card").addEventListener("click", () => {
+    playAudio(`../${card.audioSrc}`);
+  });
+
+  li.querySelector(".reverse").addEventListener("click", (e) => {
+    e.stopPropagation();
+    reverse(true, li, card);
+  });
+  li.addEventListener("mouseleave", () => {
+    reverse(false, li, card);
+  });
+});
+
+toggleCheckbox
+  .querySelector("input[type=checkbox]")
+  .addEventListener("change", (e) => {
+    isPlayMode = e.target.checked;
+    const modeTexts = toggleCheckbox.querySelectorAll(".mode-text");
+
+    modeTexts[0].classList[isPlayMode ? "remove" : "add"]("active");
+    modeTexts[1].classList[isPlayMode ? "add" : "remove"]("active");
+
+    cardList.querySelectorAll("li .mode").forEach((mode) => {
+      mode.classList[isPlayMode ? "add" : "remove"]("play");
+    });
+  });
+
+menuBtn.addEventListener("click", () => {
+  toggleSidebar(true);
+});
+
+sidebar.querySelector(".backdrop").addEventListener("click", () => {
+  toggleSidebar(false);
+});
+
+sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
+  toggleSidebar(false);
 });

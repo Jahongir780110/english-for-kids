@@ -1,50 +1,11 @@
 import cards from "./cards.js";
+import { toggleSidebar } from "./helper.js";
+import { menuBtn, sidebar, toggleCheckbox, categoryCards } from "./elements.js";
 
 let isPlayMode = false;
 
-const menuBtn = document.querySelector(".menu-icon");
-const sidebar = document.querySelector(".sidebar");
-const toggleCheckbox = document.querySelector(".toggle-mode");
-const categoryCards = document.querySelector(".category-cards .row");
-
-import {toggleSidebar} from "./helper.js";
-
-menuBtn.addEventListener("click", () => {
-  toggleSidebar();
-});
-
-sidebar.querySelector(".backdrop").addEventListener("click", () => {
-  toggleSidebar();
-});
-
-sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
-  toggleSidebar();
-});
-
-toggleCheckbox
-  .querySelector("input[type=checkbox]")
-  .addEventListener("change", (e) => {
-    const modeTexts = toggleCheckbox.querySelectorAll(".mode-text");
-    isPlayMode = e.target.checked;
-
-    if (isPlayMode) {
-      modeTexts[0].classList.remove("active");
-      modeTexts[1].classList.add("active");
-      categoryCards.querySelectorAll("li").forEach((card) => {
-        card.querySelector(".mode").classList.add("play");
-      });
-    } else {
-      modeTexts[0].classList.add("active");
-      modeTexts[1].classList.remove("active");
-      categoryCards.querySelectorAll("li").forEach((card) => {
-        card.querySelector(".mode").classList.remove("play");
-      });
-    }
-  });
-
 Object.keys(cards).forEach((card) => {
   const li = document.createElement("li");
-  li.classList.add("col-lg-3");
   const cardElement = `
     <div class="category-card">
         <a href="./category.html?title=${card}">
@@ -56,17 +17,45 @@ Object.keys(cards).forEach((card) => {
           </div>
         </a>
     </div>`;
+  const sideBarItem = `
+    <li class="category-item">
+      <a href="./category.html?title=${card}">  
+        ${card}
+      </a>
+    </li>
+  `;
+
+  li.classList.add("col-lg-3");
   li.innerHTML = cardElement;
   categoryCards.append(li);
 
-  const sideBarItem = `
-      <li class="category-item">
-        <a href="./category.html?title=${card}">  
-          ${card}
-        </a>
-      </li>
-  `;
   sidebar
     .querySelector(".categories")
     .insertAdjacentHTML("beforeend", sideBarItem);
+});
+
+toggleCheckbox
+  .querySelector("input[type=checkbox]")
+  .addEventListener("change", (e) => {
+    isPlayMode = e.target.checked;
+    const modeTexts = toggleCheckbox.querySelectorAll(".mode-text");
+
+    modeTexts[0].classList[isPlayMode ? "remove" : "add"]("active");
+    modeTexts[1].classList[isPlayMode ? "add" : "remove"]("active");
+
+    categoryCards.querySelectorAll("li .mode").forEach((mode) => {
+      mode.classList[isPlayMode ? "add" : "remove"]("play");
+    });
+  });
+
+menuBtn.addEventListener("click", () => {
+  toggleSidebar(true);
+});
+
+sidebar.querySelector(".backdrop").addEventListener("click", () => {
+  toggleSidebar(false);
+});
+
+sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
+  toggleSidebar(false);
 });

@@ -251,11 +251,17 @@
   box-shadow: 1px 3px 4px rgb(0 0 0 / 5%);
   cursor: pointer;
   overflow: hidden;
-  transition: 0.3s;
+  transition: transform 0.6s linear;
 }
 
 .cards-list__card:hover {
   box-shadow: 0px 4px 16px rgb(0 0 0 / 25%);
+}
+
+.cards-list__card.revert {
+  transform: rotateY(180deg);
+  box-shadow: 0px 4px 16px rgb(0 0 0 / 25%);
+  pointer-events: none;
 }
 
 .cards-list__card img {
@@ -269,11 +275,20 @@
   line-height: 1em;
 }
 
+.cards-list__card .footer {
+  text-align: right;
+}
+
 .cards-list__card .reverse {
   width: 24px;
   height: 24px;
-  fill: #e0ddeb;
+  fill: #ccc;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.cards-list__card .reverse:hover {
+  transform: scale(1.2);
 }
 
 .cards-list__card .footer .mode {
