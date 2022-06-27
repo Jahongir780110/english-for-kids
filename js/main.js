@@ -1,8 +1,8 @@
 import cards from "./cards.js";
-import { toggleSidebar } from "./helper.js";
-import { menuBtn, sidebar, toggleCheckbox, categoryCards } from "./elements.js";
+import {toggleSidebar, changeMode} from "./helper.js";
+import {menuBtn, sidebar, toggleCheckbox, categoryCards} from "./elements.js";
 
-let isPlayMode = false;
+localStorage.setItem("isPlayMode", false);
 
 Object.keys(cards).forEach((card) => {
   const li = document.createElement("li");
@@ -37,15 +37,7 @@ Object.keys(cards).forEach((card) => {
 toggleCheckbox
   .querySelector("input[type=checkbox]")
   .addEventListener("change", (e) => {
-    isPlayMode = e.target.checked;
-    const modeTexts = toggleCheckbox.querySelectorAll(".mode-text");
-
-    modeTexts[0].classList[isPlayMode ? "remove" : "add"]("active");
-    modeTexts[1].classList[isPlayMode ? "add" : "remove"]("active");
-
-    categoryCards.querySelectorAll("li .mode").forEach((mode) => {
-      mode.classList[isPlayMode ? "add" : "remove"]("play");
-    });
+    changeMode(e.target.checked, categoryCards);
   });
 
 menuBtn.addEventListener("click", () => {
