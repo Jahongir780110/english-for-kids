@@ -43,7 +43,7 @@ cards[field].forEach((card) => {
         </div>
       </div>`;
 
-  li.classList.add("col-lg-3");
+  li.classList.add("col-lg-3", "col-md-4", "col-sm-6", "col-12");
   li.innerHTML = cardElement;
   cardList.append(li);
 

@@ -99,6 +99,18 @@
   transition: 0.5s;
 }
 
+@media (max-width: 1078px) {
+  .sidebar {
+    width: 45vw;
+  }
+}
+
+@media (max-width: 450px) {
+  .sidebar {
+    width: 75vw;
+  }
+}
+
 .sidebar-close {
   position: absolute;
   top: 30px;
@@ -117,12 +129,25 @@
   height: 100%;
   background-color: #ffbc29;
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding-top: 72px;
+  overflow-y: auto;
 }
 
 .sidebar.hidden {
   left: -30vw;
+}
+
+@media (max-width: 1078px) {
+  .sidebar.hidden {
+    left: -45vw;
+  }
+}
+
+@media (max-width: 450px) {
+  .sidebar.hidden {
+    left: -75vw;
+  }
 }
 
 .sidebar .categories {
@@ -137,6 +162,12 @@
   color: white;
   margin-top: 16px;
   cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .sidebar .category-item {
+    font-size: 24px;
+  }
 }
 
 .sidebar .category-item.active {
@@ -172,6 +203,12 @@
   line-height: 60px;
   color: #3d3d3d;
   font-weight: bold;
+}
+
+@media (max-width: 840px) {
+  .main-content .title {
+    font-size: 34px;
+  }
 }
 
 /* ======================================  main-content end  ==================================  */
@@ -321,6 +358,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 16px;
 }
 
 .game-button {
@@ -341,12 +379,21 @@
   transform: translateY(-2px);
 }
 
+.bottom .stars {
+  flex-basis: 200px;
+}
+
 /* ======================================  game end  ==================================  */
+
+/* ======================================  result start  ==================================  */
+
 .result {
   text-align: center;
 }
 
 .result img {
   width: auto;
-  max-width: 100%;
+  max-width: 90%;
 }
+
+/* ======================================  result end  ==================================  */

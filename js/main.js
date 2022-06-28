@@ -28,7 +28,7 @@ Object.keys(cards).forEach((card) => {
     </li>
   `;
 
-  li.classList.add("col-lg-3");
+  li.classList.add("col-lg-3", "col-md-4", "col-sm-6", "col-12");
   li.innerHTML = cardElement;
   categoryCards.append(li);
 
