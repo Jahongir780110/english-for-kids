@@ -317,6 +317,11 @@
 /* ======================================  cards-list end  ==================================  */
 
 /* ======================================  game start  ==================================  */
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 .game-button {
   width: 165px;

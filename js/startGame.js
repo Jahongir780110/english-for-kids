@@ -1,60 +1,75 @@
 import cards from "./cards.js";
-import {cardList, toggleCheckbox} from "./elements.js";
+import {
+  cardList,
+  toggleCheckbox,
+  mainContent,
+  gameBtn,
+  stars,
+  result,
+} from "./elements.js";
+import {playAudio} from "./helper.js";
 
-function playGame() {
-  randomIndex = Math.floor(Math.random() * data.length);
-  const audio = new Audio(`../${data[randomIndex].audioSrc}`);
-  audio.play();
-}
-function finishGame() {
-  data = [...cards[new URLSearchParams(window.location.search).get("title")]];
-  isPlaying = false;
-  randomIndex = null;
-  errors = 0;
-  gameBtn.innerText = "Start game";
-  cardList.querySelectorAll(".cards-list__card").forEach((cardElement) => {
-    delete cardElement.dataset.error;
-  });
-
-  const result = document.querySelector(".result");
-  const mainContent = document.querySelector(".main-content");
-  const img = document.createElement("img");
-
-  result.removeAttribute("hidden");
-  mainContent.setAttribute("hidden", true);
-
-  if (errors) {
-    img.setAttribute("src", "../img/excellent.png");
-    img.setAttribute("alt", "excellent");
-  } else {
-    img.setAttribute("src", "../img/fail.png");
-    img.setAttribute("alt", "fail");
+export function initGame() {
+  function playGame() {
+    randomIndex = Math.floor(Math.random() * data.length);
+    playAudio(`../${data[randomIndex].audioSrc}`);
   }
 
-  result.appendChild(img);
+  function finishGame() {
+    const img = document.createElement("img");
 
-  setTimeout(() => {
-    result.setAttribute("hidden", true);
-    mainContent.removeAttribute("hidden");
-  }, 5000);
-}
+    result.removeAttribute("hidden");
+    mainContent.setAttribute("hidden", true);
 
-let data = [...cards[new URLSearchParams(window.location.search).get("title")]];
-const gameBtn = document.querySelector(".game-button");
+    if (!errors) {
+      playAudio("../audio/success.mp3");
+      img.setAttribute("src", "../img/excellent.png");
+      img.setAttribute("alt", "excellent");
+    } else {
+      playAudio("../audio/failure.mp3");
+      img.setAttribute("src", "../img/fail.png");
+      img.setAttribute("alt", "fail");
+      result.insertAdjacentHTML(
+        "beforeend",
+        `<h1 class="text-danger">${errors} mistake${
+          errors === 1 ? "" : "s"
+        }</h1>`
+      );
+    }
 
-let isPlaying = false;
-let randomIndex = null;
-let errors = 0;
+    result[errors ? "prepend" : "append"](img);
 
-setTimeout(() => {
+    setTimeout(() => {
+      window.location = "./";
+    }, 5000);
+  }
+
+  let data = [
+    ...cards[new URLSearchParams(window.location.search).get("title")],
+  ];
+  let isPlaying = false;
+  let randomIndex = null;
+  let errors = 0;
+
   cardList.querySelectorAll(".cards-list__card").forEach((cardElement) => {
     cardElement.addEventListener("click", () => {
-      if (!isPlaying) return;
-      if (
-        cardElement.querySelector(".title").innerText === data[randomIndex].word
-      ) {
-        const audio = new Audio("../audio/correct.mp3");
-        audio.play();
+      if (!isPlaying || cardElement.dataset.error) return;
+
+      const isCorrect =
+        cardElement.querySelector(".title").innerText ===
+        data[randomIndex].word;
+      const star = `
+          <svg width="16" height="16" fill=${isCorrect ? "#f7d83a" : "#ea2020"}>
+            <path
+              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+            />
+          </svg>
+          `;
+
+      playAudio(`../audio/${isCorrect ? "correct" : "error"}.mp3`);
+      stars.insertAdjacentHTML("beforeend", star);
+
+      if (isCorrect) {
         cardElement.dataset.error = true;
         data.splice(randomIndex, 1);
         setTimeout(() => {
@@ -62,39 +77,40 @@ setTimeout(() => {
         }, 1000);
       } else {
         errors++;
-        if (!cardElement.dataset.error) {
-          const audio = new Audio("../audio/error.mp3");
-          audio.play();
-        }
       }
     });
   });
-}, 0);
 
-gameBtn.addEventListener("click", () => {
-  if (isPlaying) {
-    const audio = new Audio(`../${data[randomIndex].audioSrc}`);
-    audio.play();
-    return;
-  }
-  isPlaying = true;
-  gameBtn.innerText = "Repeat";
-  playGame();
-});
-
-toggleCheckbox
-  .querySelector("input[type=checkbox]")
-  .addEventListener("change", (e) => {
-    const isChecked = e.target.checked;
-    if (!isChecked) {
-      data = [
-        ...cards[new URLSearchParams(window.location.search).get("title")],
-      ];
-      isPlaying = false;
-      randomIndex = null;
-      errors = 0;
-      cardList.querySelectorAll(".cards-list__card").forEach((cardElement) => {
-        delete cardElement.dataset.error;
-      });
+  gameBtn.addEventListener("click", () => {
+    if (isPlaying) {
+      playAudio(`../${data[randomIndex].audioSrc}`);
+      return;
     }
+
+    isPlaying = true;
+    gameBtn.innerText = "Repeat";
+    playGame();
   });
+
+  toggleCheckbox
+    .querySelector("input[type=checkbox]")
+    .addEventListener("change", (e) => {
+      const isChecked = e.target.checked;
+
+      if (!isChecked) {
+        data = [
+          ...cards[new URLSearchParams(window.location.search).get("title")],
+        ];
+        isPlaying = false;
+        randomIndex = null;
+        errors = 0;
+
+        cardList
+          .querySelectorAll(".cards-list__card")
+          .forEach((cardElement) => {
+            delete cardElement.dataset.error;
+          });
+        stars.innerHTML = "";
+      }
+    });
+}

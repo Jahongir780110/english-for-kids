@@ -1,11 +1,16 @@
 import cards from "./cards.js";
-import {toggleSidebar, playAudio, reverse, changeMode} from "./helper.js";
+import {toggleSidebar, playAudio, reverseCard, changeMode} from "./helper.js";
 import {menuBtn, sidebar, toggleCheckbox, cardList, title} from "./elements.js";
+import {initGame} from "./startGame.js";
 
 const field = new URLSearchParams(window.location.search).get("title");
 const isPlayMode = localStorage.getItem("isPlayMode") === "true" ? true : false;
 
 title.innerText = field;
+
+setTimeout(() => {
+  changeMode(isPlayMode, cardList, true);
+}, 0);
 
 Object.keys(cards).forEach((card) => {
   const actieClass = field === card ? "active" : "";
@@ -50,20 +55,19 @@ cards[field].forEach((card) => {
 
   li.querySelector(".reverse").addEventListener("click", (e) => {
     e.stopPropagation();
-    reverse(true, li, card);
+    reverseCard(true, li, card);
   });
   li.addEventListener("mouseleave", () => {
-    reverse(false, li, card);
+    reverseCard(false, li, card);
   });
 });
 
-changeMode(isPlayMode, cardList, true);
+initGame();
 
 toggleCheckbox
   .querySelector("input[type=checkbox]")
   .addEventListener("change", (e) => {
-    const isChecked = e.target.checked;
-    changeMode(isChecked, cardList, true);
+    changeMode(e.target.checked, cardList, true);
   });
 
 menuBtn.addEventListener("click", () => {
@@ -77,5 +81,3 @@ sidebar.querySelector(".backdrop").addEventListener("click", () => {
 sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
   toggleSidebar(false);
 });
-
-import "./startGame.js";

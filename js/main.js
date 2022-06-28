@@ -2,7 +2,10 @@ import cards from "./cards.js";
 import {toggleSidebar, changeMode} from "./helper.js";
 import {menuBtn, sidebar, toggleCheckbox, categoryCards} from "./elements.js";
 
-localStorage.setItem("isPlayMode", false);
+setTimeout(() => {
+  changeMode(false, categoryCards);
+  toggleCheckbox.querySelector("input[type=checkbox]").checked = false;
+}, 0);
 
 Object.keys(cards).forEach((card) => {
   const li = document.createElement("li");
