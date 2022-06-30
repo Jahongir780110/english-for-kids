@@ -1,4 +1,8 @@
 /* ======================================  header start  ==================================  */
+.header.statistics {
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 5%);
+}
+
 .header .menu-icon {
   transition: 0.3s;
 }
@@ -397,3 +401,34 @@
 }
 
 /* ======================================  result end  ==================================  */
+
+/* ======================================  statistics start  ==================================  */
+
+.btns .button {
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  min-width: 189px;
+  min-height: 51px;
+  padding: 6px 10px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #05112e;
+  background-color: #ffffff;
+  box-shadow: 3px 3px 10px 0 #062e8f4f;
+  transition: 0.3s;
+}
+
+.btns .button:hover {
+  box-shadow: 3px 3px 20px 0 #062e8f4f;
+}
+
+.btns .button.reset {
+  background-color: #d70a80;
+  color: #fff;
+}
+
+.table th {
+  cursor: pointer;
+}
+/* ======================================  statistics end  ==================================  */

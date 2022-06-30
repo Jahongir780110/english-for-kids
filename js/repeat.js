@@ -3,19 +3,29 @@ import {toggleSidebar, playAudio, reverseCard, changeMode} from "./helper.js";
 import {menuBtn, sidebar, toggleCheckbox, cardList, title} from "./elements.js";
 import {initGame} from "./startGame.js";
 
-const field = new URLSearchParams(window.location.search).get("title");
-const isPlayMode = localStorage.getItem("isPlayMode") === "true" ? true : false;
+const stats = JSON.parse(localStorage.getItem("statistics"));
+const data = [];
+let count = 0;
 
-title.innerText = field;
+stats.sort((a, b) => {
+  a = a.wrong === 0 ? 0 : a.wrong / a.clicksGame;
+  b = b.wrong === 0 ? 0 : b.wrong / b.clicksGame;
 
-setTimeout(() => {
-  changeMode(isPlayMode, cardList, true);
-}, 0);
+  return b - a;
+});
+
+for (const stat of stats) {
+  const val = stat.wrong === 0 ? 0 : stat.wrong / stat.clicksGame;
+  if (val === 0 || count === 7) break;
+  data.push(stat);
+  count++;
+}
+
+title.innerText = "Train difficult words";
 
 Object.keys(cards).forEach((card) => {
-  const actieClass = field === card ? "active" : "";
   const sideBarItem = `
-      <li class="category-item ${actieClass}">
+      <li class="category-item">
         <a href="./category.html?title=${card}">  
           ${card}
         </a>
@@ -36,11 +46,11 @@ sidebar.querySelector(".categories").insertAdjacentHTML(
   `
 );
 
-cards[field].forEach((card) => {
+data.forEach((card) => {
   const li = document.createElement("li");
   const cardElement = `
       <div class="cards-list__card">
-        <img src="./${card.image}" alt="${card.word}" />
+        <img src="./${card.imgUrl}" alt="${card.word}" />
         <div class="top mt-3 px-3">
             <h3 class="title mb-0">${card.word}</h3>
             <svg xmlns="http://www.w3.org/2000/svg" class="reverse" viewBox="0 0 16 16">
@@ -80,7 +90,7 @@ cards[field].forEach((card) => {
   });
 });
 
-initGame(cards[field]);
+initGame(data);
 
 toggleCheckbox
   .querySelector("input[type=checkbox]")

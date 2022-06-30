@@ -2,9 +2,32 @@ import cards from "./cards.js";
 import {toggleSidebar, changeMode} from "./helper.js";
 import {menuBtn, sidebar, toggleCheckbox, categoryCards} from "./elements.js";
 
+if (!localStorage.getItem("statistics")) {
+  let index = 1;
+  const stats = [];
+
+  for (const category in cards) {
+    for (const card of cards[category]) {
+      const data = {
+        id: index++,
+        category: category,
+        word: card.word,
+        translation: card.translation,
+        clicksTraining: 0,
+        clicksGame: 0,
+        wrong: 0,
+        imgUrl: card.image,
+        audioSrc: card.audioSrc,
+      };
+      stats.push(data);
+    }
+  }
+
+  localStorage.setItem("statistics", JSON.stringify(stats));
+}
+
 setTimeout(() => {
   changeMode(false, categoryCards);
-  toggleCheckbox.querySelector("input[type=checkbox]").checked = false;
 }, 0);
 
 Object.keys(cards).forEach((card) => {
@@ -36,6 +59,16 @@ Object.keys(cards).forEach((card) => {
     .querySelector(".categories")
     .insertAdjacentHTML("beforeend", sideBarItem);
 });
+sidebar.querySelector(".categories").insertAdjacentHTML(
+  "beforeend",
+  `
+    <li class="category-item">
+      <a href="./statistics.html">  
+        Statistics
+      </a>
+    </li>
+  `
+);
 
 toggleCheckbox
   .querySelector("input[type=checkbox]")
