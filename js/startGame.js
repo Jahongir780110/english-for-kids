@@ -69,12 +69,11 @@ export const initGame = (data) => {
         (stat) => stat.word === cardElement.querySelector(".title").innerText
       );
 
-      targetWord.clicksGame++;
-
       stars.insertAdjacentHTML("beforeend", star);
       playAudio(`../audio/${isCorrect ? "correct" : "error"}.mp3`);
 
       if (isCorrect) {
+        targetWord.correct++;
         cardElement.dataset.disabled = true;
         data.splice(randomIndex, 1);
         setTimeout(() => {

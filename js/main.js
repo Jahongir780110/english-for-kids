@@ -15,7 +15,7 @@ if (!localStorage.getItem("statistics")) {
         word: card.word,
         translation: card.translation,
         clicksTraining: 0,
-        clicksGame: 0,
+        correct: 0,
         wrong: 0,
         image: card.image,
         audioSrc: card.audioSrc,

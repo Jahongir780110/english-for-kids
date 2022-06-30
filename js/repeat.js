@@ -13,15 +13,15 @@ setTimeout(() => {
 }, 0);
 
 stats.sort((a, b) => {
-  a = a.wrong === 0 ? 0 : a.wrong / a.clicksGame;
-  b = b.wrong === 0 ? 0 : b.wrong / b.clicksGame;
+  a = a.wrong === 0 ? 0 : a.correct / (a.correct + a.wrong);
+  b = b.wrong === 0 ? 0 : b.correct / (b.correct + b.wrong);
 
   return b - a;
 });
 
 for (const stat of stats) {
-  const val = stat.wrong === 0 ? 0 : stat.wrong / stat.clicksGame;
-  if (val === 0 || count === 7) break;
+  const val = stat.wrong === 0 ? 0 : stat.wrong / (stat.correct + stat.wrong);
+  if (val === 0 || count === 8) break;
 
   data.push(stat);
   count++;

@@ -5,7 +5,8 @@ const sort = (type, th) => {
   const stats = JSON.parse(localStorage.getItem("statistics")).map((stat) => {
     return {
       ...stat,
-      errorsPercentage: stat.wrong === 0 ? 0 : stat.wrong / stat.clicksGame,
+      correctPercentage:
+        stat.wrong === 0 ? 0 : stat.correct / (stat.correct + stat.wrong),
     };
   });
 
@@ -81,13 +82,13 @@ const makeTable = (stats = JSON.parse(localStorage.getItem("statistics"))) => {
             <td>${stat.word}</td>
             <td>${stat.translation}</td>
             <td>${stat.clicksTraining}</td>
-            <td>${stat.clicksGame}</td>
+            <td>${stat.correct}</td>
             <td>${stat.wrong}</td>
-            <td>${
-              stat.wrong === 0
+            <td>${(
+              (stat.wrong === 0
                 ? 0
-                : ((stat.wrong / stat.clicksGame) * 100).toFixed(2)
-            }</td>
+                : stat.correct / (stat.correct + stat.wrong)) * 100
+            ).toFixed(2)}</td>
           </tr>
         `;
     table.querySelector("tbody").insertAdjacentHTML("beforeend", row);
@@ -100,9 +101,9 @@ const cols = [
   "word",
   "translation",
   "clicksTraining",
-  "clicksGame",
+  "correct",
   "wrong",
-  "errorsPercentage",
+  "correctPercentage",
 ];
 let lastSortType = "id";
 let lastSortDirection = -1;
@@ -126,7 +127,7 @@ resetBtn.addEventListener("click", () => {
 
   for (const stat of stats) {
     stat.clicksTraining = 0;
-    stat.clicksGame = 0;
+    stat.correct = 0;
     stat.wrong = 0;
   }
   localStorage.setItem("statistics", JSON.stringify(stats));
