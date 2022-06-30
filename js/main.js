@@ -1,6 +1,7 @@
 import cards from "./cards.js";
-import {toggleSidebar, changeMode} from "./helper.js";
-import {menuBtn, sidebar, toggleCheckbox, categoryCards} from "./elements.js";
+import {changeMode} from "./helper.js";
+import {toggleCheckbox, categoryCards} from "./elements.js";
+import {initNav} from "./nav.js";
 
 if (!localStorage.getItem("statistics")) {
   let index = 1;
@@ -16,7 +17,7 @@ if (!localStorage.getItem("statistics")) {
         clicksTraining: 0,
         clicksGame: 0,
         wrong: 0,
-        imgUrl: card.image,
+        image: card.image,
         audioSrc: card.audioSrc,
       };
       stats.push(data);
@@ -28,6 +29,7 @@ if (!localStorage.getItem("statistics")) {
 
 setTimeout(() => {
   changeMode(false, categoryCards);
+  initNav();
 }, 0);
 
 Object.keys(cards).forEach((card) => {
@@ -43,47 +45,14 @@ Object.keys(cards).forEach((card) => {
           </div>
         </a>
     </div>`;
-  const sideBarItem = `
-    <li class="category-item">
-      <a href="./category.html?title=${card}">  
-        ${card}
-      </a>
-    </li>
-  `;
 
   li.classList.add("col-lg-3", "col-md-4", "col-sm-6", "col-12");
   li.innerHTML = cardElement;
   categoryCards.append(li);
-
-  sidebar
-    .querySelector(".categories")
-    .insertAdjacentHTML("beforeend", sideBarItem);
 });
-sidebar.querySelector(".categories").insertAdjacentHTML(
-  "beforeend",
-  `
-    <li class="category-item">
-      <a href="./statistics.html">  
-        Statistics
-      </a>
-    </li>
-  `
-);
 
 toggleCheckbox
   .querySelector("input[type=checkbox]")
   .addEventListener("change", (e) => {
     changeMode(e.target.checked, categoryCards);
   });
-
-menuBtn.addEventListener("click", () => {
-  toggleSidebar(true);
-});
-
-sidebar.querySelector(".backdrop").addEventListener("click", () => {
-  toggleSidebar(false);
-});
-
-sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
-  toggleSidebar(false);
-});

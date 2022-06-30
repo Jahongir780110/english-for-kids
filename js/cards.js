@@ -1,4 +1,4 @@
-const cards = {
+export const cards = {
   "Action (set A)": [
     {
       word: "cry",

@@ -1,33 +1,13 @@
-import cards from "./cards.js";
-import {toggleSidebar} from "./helper.js";
-import {menuBtn, sidebar, table, resetBtn, repeatBtn} from "./elements.js";
+import {sidebar, table, resetBtn, repeatBtn} from "./elements.js";
+import {initNav} from "./nav.js";
 
 const sort = (type, th) => {
-  const stats = JSON.parse(localStorage.getItem("statistics"));
-
-  if (type === "errorsPercentage") {
-    if (type === lastSortType) {
-      if (lastSortDirection === -1) {
-        stats.sort((a, b) => {
-          a = a.wrong === 0 ? 0 : a.wrong / a.clicksGame;
-          b = b.wrong === 0 ? 0 : b.wrong / b.clicksGame;
-          return a > b ? -1 : a === b ? 0 : 1;
-        });
-      } else {
-        stats.sort((a, b) => {
-          a = a.wrong === 0 ? 0 : a.wrong / a.clicksGame;
-          b = b.wrong === 0 ? 0 : b.wrong / b.clicksGame;
-          return a > b ? -1 : a === b ? 0 : -1;
-        });
-      }
-    } else {
-      stats.sort((a, b) => {
-        a = a.wrong === 0 ? 0 : a.wrong / a.clicksGame;
-        b = b.wrong === 0 ? 0 : b.wrong / b.clicksGame;
-        return a > b ? -1 : a === b ? 0 : -1;
-      });
-    }
-  }
+  const stats = JSON.parse(localStorage.getItem("statistics")).map((stat) => {
+    return {
+      ...stat,
+      errorsPercentage: stat.wrong === 0 ? 0 : stat.wrong / stat.clicksGame,
+    };
+  });
 
   if (type === lastSortType) {
     if (lastSortDirection === -1) {
@@ -69,6 +49,7 @@ const sort = (type, th) => {
       />
     </svg>
     `;
+
   table.querySelectorAll("th").forEach((th2) => {
     if (th2.querySelector("svg")) {
       th2.removeChild(th2.querySelector("svg"));
@@ -88,10 +69,14 @@ const sort = (type, th) => {
   lastSortDirection = lastSortDirection === -1 ? 1 : -1;
 
   table.querySelector("tbody").innerHTML = "";
+  makeTable(stats);
+};
+
+const makeTable = (stats = JSON.parse(localStorage.getItem("statistics"))) => {
   for (const stat of stats) {
     const row = `
           <tr>
-            <th scope="row">${stat.id}</th>
+            <td scope="row">${stat.id}</td>
             <td>${stat.category}</td>
             <td>${stat.word}</td>
             <td>${stat.translation}</td>
@@ -109,7 +94,6 @@ const sort = (type, th) => {
   }
 };
 
-const stats = JSON.parse(localStorage.getItem("statistics"));
 const cols = [
   "id",
   "category",
@@ -123,49 +107,11 @@ const cols = [
 let lastSortType = "id";
 let lastSortDirection = -1;
 
-Object.keys(cards).forEach((card) => {
-  const sideBarItem = `
-    <li class="category-item">
-      <a href="./category.html?title=${card}">  
-        ${card}
-      </a>
-    </li>
-  `;
+setTimeout(() => {
+  initNav(true);
+}, 0);
 
-  sidebar
-    .querySelector(".categories")
-    .insertAdjacentHTML("beforeend", sideBarItem);
-});
-sidebar.querySelector(".categories").insertAdjacentHTML(
-  "beforeend",
-  `
-    <li class="category-item active">
-      <a href="./statistics.html">  
-        Statistics
-      </a>
-    </li>
-  `
-);
-
-for (const stat of stats) {
-  const row = `
-        <tr>
-          <td scope="row">${stat.id}</td>
-          <td>${stat.category}</td>
-          <td>${stat.word}</td>
-          <td>${stat.translation}</td>
-          <td>${stat.clicksTraining}</td>
-          <td>${stat.clicksGame}</td>
-          <td>${stat.wrong}</td>
-          <td>${
-            stat.wrong === 0
-              ? 0
-              : ((stat.wrong / stat.clicksGame) * 100).toFixed(2)
-          }</td>
-        </tr>
-      `;
-  table.querySelector("tbody").insertAdjacentHTML("beforeend", row);
-}
+makeTable();
 
 table.querySelectorAll("th").forEach((th, index) => {
   th.addEventListener("click", () => {
@@ -174,41 +120,20 @@ table.querySelectorAll("th").forEach((th, index) => {
 });
 
 resetBtn.addEventListener("click", () => {
+  const stats = JSON.parse(localStorage.getItem("statistics"));
+
   table.querySelector("tbody").innerHTML = "";
 
   for (const stat of stats) {
-    const row = `
-        <tr>
-          <td scope="row">${stat.id}</td>
-          <td>${stat.category}</td>
-          <td>${stat.word}</td>
-          <td>${stat.translation}</td>
-          <td>${0}</td>
-          <td>${0}</td>
-          <td>${0}</td>
-          <td>${0}</td>
-        </tr>
-      `;
-    table.querySelector("tbody").insertAdjacentHTML("beforeend", row);
     stat.clicksTraining = 0;
     stat.clicksGame = 0;
     stat.wrong = 0;
   }
   localStorage.setItem("statistics", JSON.stringify(stats));
+
+  makeTable();
 });
 
 repeatBtn.addEventListener("click", () => {
   window.location = "./repeat.html";
-});
-
-menuBtn.addEventListener("click", () => {
-  toggleSidebar(true);
-});
-
-sidebar.querySelector(".backdrop").addEventListener("click", () => {
-  toggleSidebar(false);
-});
-
-sidebar.querySelector(".sidebar-close").addEventListener("click", () => {
-  toggleSidebar(false);
 });
