@@ -1,5 +1,5 @@
 import {changeMode, fillCards} from "./helper.js";
-import {toggleCheckbox, cardList} from "./elements.js";
+import {toggleCheckbox, cardList, title} from "./elements.js";
 import {initGame} from "./startGame.js";
 import {initNav} from "./nav.js";
 
@@ -8,6 +8,7 @@ const data = [];
 let count = 0;
 
 setTimeout(() => {
+  changeMode(false, cardList);
   initNav();
   initGame(data);
 }, 0);
@@ -27,7 +28,17 @@ for (const stat of stats) {
   count++;
 }
 
-fillCards(data, cardList);
+if (!data.length) {
+  toggleCheckbox.classList.remove("d-flex");
+  toggleCheckbox.classList.add("d-none");
+  title.innerText = "There are no difficult words";
+  title.classList.add("text-center", "text-danger");
+  setTimeout(() => {
+    window.location = "./";
+  }, 3000);
+} else {
+  fillCards(data, cardList);
+}
 
 toggleCheckbox
   .querySelector("input[type=checkbox]")

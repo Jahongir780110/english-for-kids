@@ -84,7 +84,7 @@ export const fillCards = (data, parent) => {
     parent.append(li);
 
     li.querySelector(".cards-list__card").addEventListener("click", () => {
-      if (localStorage.getItem("isPlayMode") !== "true") {
+      if (!JSON.parse(localStorage.getItem("isPlayMode"))) {
         const stats = JSON.parse(localStorage.getItem("statistics"));
         playAudio(`../${card.audioSrc}`);
 
