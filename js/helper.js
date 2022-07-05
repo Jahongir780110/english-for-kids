@@ -1,11 +1,4 @@
-import {sidebar, toggleCheckbox, bottomSection, gameBtn} from "./elements.js";
-
-export const toggleSidebar = (val) => {
-  sidebar.classList[val ? "remove" : "add"]("hidden");
-  sidebar
-    .querySelector(".backdrop")
-    .classList[val ? "remove" : "add"]("hidden");
-};
+import {bottomSection, gameBtn} from "./elements.js";
 
 export const playAudio = (src) => {
   const audio = new Audio(src);
@@ -30,6 +23,8 @@ export const reverseCard = (val, parent, cardData) => {
 };
 
 export const changeMode = (isPlayMode, cards, isCardsPage) => {
+  console.log(isPlayMode, cards, isCardsPage);
+  const toggleCheckbox = document.querySelector(".toggle-mode");
   const modeTexts = toggleCheckbox.querySelectorAll(".mode-text");
 
   localStorage.setItem("isPlayMode", isPlayMode);

@@ -1,14 +1,9 @@
-import {
-  cardList,
-  toggleCheckbox,
-  mainContent,
-  gameBtn,
-  stars,
-  result,
-} from "./elements.js";
+import {cardList, mainContent, gameBtn, stars, result} from "./elements.js";
 import {playAudio} from "./helper.js";
 
 export const initGame = (data) => {
+  const toggleCheckbox = document.querySelector(".toggle-mode");
+
   const playNextWord = () => {
     randomIndex = Math.floor(Math.random() * data.length);
     playAudio(`../${data[randomIndex].audioSrc}`);

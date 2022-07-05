@@ -1,7 +1,7 @@
 import cards from "./cards.js";
 import {changeMode} from "./helper.js";
-import {toggleCheckbox, categoryCards} from "./elements.js";
-import {initNav} from "./nav.js";
+import {categoryCards} from "./elements.js";
+import "../components/theNav.js";
 
 if (!localStorage.getItem("statistics")) {
   let index = 1;
@@ -29,7 +29,6 @@ if (!localStorage.getItem("statistics")) {
 
 setTimeout(() => {
   changeMode(false, categoryCards);
-  initNav();
 }, 0);
 
 Object.keys(cards).forEach((card) => {
@@ -50,9 +49,3 @@ Object.keys(cards).forEach((card) => {
   li.innerHTML = cardElement;
   categoryCards.append(li);
 });
-
-toggleCheckbox
-  .querySelector("input[type=checkbox]")
-  .addEventListener("change", (e) => {
-    changeMode(e.target.checked, categoryCards);
-  });

@@ -1,5 +1,5 @@
-import {sidebar, table, resetBtn, repeatBtn} from "./elements.js";
-import {initNav} from "./nav.js";
+import {table, resetBtn, repeatBtn} from "./elements.js";
+import "../components/theNav.js";
 
 const sort = (type, th) => {
   const stats = JSON.parse(localStorage.getItem("statistics")).map((stat) => {
@@ -95,6 +95,8 @@ const makeTable = (stats = JSON.parse(localStorage.getItem("statistics"))) => {
   }
 };
 
+const header = document.querySelector(".header .container");
+
 const cols = [
   "id",
   "category",
@@ -108,9 +110,12 @@ const cols = [
 let lastSortType = "id";
 let lastSortDirection = -1;
 
-setTimeout(() => {
-  initNav(true);
-}, 0);
+header.classList.remove("justify-content-between");
+header.insertAdjacentHTML(
+  "beforeend",
+  '<h2 class="title-text ms-3">Statistics</h2>'
+);
+header.removeChild(header.querySelector(".toggle-mode"));
 
 makeTable();
 
