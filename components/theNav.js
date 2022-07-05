@@ -1,6 +1,6 @@
 import cards from "../js/cards.js";
-import {categoryCards, cardList} from "../js/elements.js";
-import {changeMode} from "../js/helper.js";
+import { categoryCards, cardList } from "../js/elements.js";
+import { changeMode } from "../js/helper.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -84,9 +84,7 @@ class TheNav extends HTMLElement {
   }
 
   connectedCallback() {
-    const that = this;
-
-    this.pages.forEach(({url, title, active, addQuery}) => {
+    this.pages.forEach(({ url, title, active, addQuery }) => {
       const sideBarItem = `
         <li class="category-item ${active ? "active" : null}">
           <a href="${url}${addQuery ? "?title=" + title : ""}">  
@@ -100,17 +98,17 @@ class TheNav extends HTMLElement {
     });
 
     this.menuBtn.addEventListener("click", () => {
-      this.toggleSidebar(true);
+      this.setSidebarOpened(true);
     });
 
     this.sidebar.querySelector(".backdrop").addEventListener("click", () => {
-      this.toggleSidebar(false);
+      this.setSidebarOpened(false);
     });
 
     this.sidebar
       .querySelector(".sidebar-close")
       .addEventListener("click", () => {
-        this.toggleSidebar(false);
+        this.setSidebarOpened(false);
       });
 
     this.toggleCheckbox
@@ -118,13 +116,13 @@ class TheNav extends HTMLElement {
       .addEventListener("change", (e) => {
         changeMode(
           e.target.checked,
-          that.isCardList ? cardList : categoryCards,
+          this.isCardList ? cardList : categoryCards,
           this.isCardList
         );
       });
   }
 
-  toggleSidebar(val) {
+  setSidebarOpened(val) {
     this.sidebar.classList[val ? "remove" : "add"]("hidden");
     this.sidebar
       .querySelector(".backdrop")
