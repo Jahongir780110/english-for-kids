@@ -2,6 +2,15 @@ import cards from "../js/cards.js";
 import { categoryCards, cardList } from "../js/elements.js";
 import { changeMode } from "../js/helper.js";
 
+const classes = {
+  sidebar: "sidebar",
+  menuIcon: "menu-icon",
+  toggleMode: "toggle-mode",
+  categories: "categories",
+  sidebarClose: "sidebar-close",
+  backdrop: "backdrop",
+};
+
 const template = document.createElement("template");
 template.innerHTML = `
 <header class="header mt-5">
@@ -55,9 +64,9 @@ class TheNav extends HTMLElement {
     super();
 
     this.append(template.content.cloneNode(true));
-    this.menuBtn = document.querySelector(".menu-icon");
-    this.sidebar = document.querySelector(".sidebar");
-    this.toggleCheckbox = document.querySelector(".toggle-mode");
+    this.menuBtn = document.querySelector(`.${classes.menuIcon}`);
+    this.sidebar = document.querySelector(`.${classes.sidebar}`);
+    this.toggleCheckbox = document.querySelector(`.${classes.toggleMode}`);
 
     this.pathName = new URL(window.location).pathname;
     this.isCardList =
@@ -93,22 +102,24 @@ class TheNav extends HTMLElement {
         </li>`;
 
       this.sidebar
-        .querySelector(".categories")
+        .querySelector(`.${classes.categories}`)
         .insertAdjacentHTML("beforeend", sideBarItem);
     });
 
     this.menuBtn.addEventListener("click", () => {
-      this.setSidebarOpened(true);
-    });
-
-    this.sidebar.querySelector(".backdrop").addEventListener("click", () => {
-      this.setSidebarOpened(false);
+      this.toggleSidebar();
     });
 
     this.sidebar
-      .querySelector(".sidebar-close")
+      .querySelector(`.${classes.backdrop}`)
       .addEventListener("click", () => {
-        this.setSidebarOpened(false);
+        this.toggleSidebar();
+      });
+
+    this.sidebar
+      .querySelector(`.${classes.sidebarClose}`)
+      .addEventListener("click", () => {
+        this.toggleSidebar();
       });
 
     this.toggleCheckbox
@@ -122,11 +133,11 @@ class TheNav extends HTMLElement {
       });
   }
 
-  setSidebarOpened(val) {
-    this.sidebar.classList[val ? "remove" : "add"]("hidden");
+  toggleSidebar() {
+    this.sidebar.classList.toggle("hidden");
     this.sidebar
-      .querySelector(".backdrop")
-      .classList[val ? "remove" : "add"]("hidden");
+      .querySelector(`.${classes.backdrop}`)
+      .classList.toggle("hidden");
   }
 }
 
