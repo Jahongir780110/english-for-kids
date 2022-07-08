@@ -1,0 +1,19 @@
+{
+  "name": "english-for-kids",
+  "version": "1.0.0",
+  "description": "English learning app for kids",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolling-scopes-school/jahongir780110-JSFEEN2022.git"
+  },
+  "author": "Jakhongir Ismoilov <jahongir780110@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolling-scopes-school/jahongir780110-JSFEEN2022/issues"
+  },
+  "homepage": "https://github.com/rolling-scopes-school/jahongir780110-JSFEEN2022#readme"
+}
