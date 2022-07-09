@@ -1,17 +1,17 @@
-import cards from "../js/cards.js";
-import { categoryCards, cardList } from "../js/elements.js";
-import { changeMode } from "../js/helper.js";
+import { categories } from '../js/cards.js'
+import { categoryCards, cardList } from '../js/elements.js'
+import { changeMode } from '../js/helper.js'
 
 const classes = {
-  sidebar: "sidebar",
-  menuIcon: "menu-icon",
-  toggleMode: "toggle-mode",
-  categories: "categories",
-  sidebarClose: "sidebar-close",
-  backdrop: "backdrop",
-};
+  sidebar: 'sidebar',
+  menuIcon: 'menu-icon',
+  toggleMode: 'toggle-mode',
+  categories: 'categories',
+  sidebarClose: 'sidebar-close',
+  backdrop: 'backdrop'
+}
 
-const template = document.createElement("template");
+const template = document.createElement('template')
 template.innerHTML = `
 <header class="header mt-5">
     <div class="container d-flex justify-content-between align-items-center">
@@ -57,88 +57,87 @@ template.innerHTML = `
 
     <div class="backdrop hidden"></div>
 </sidebar>
-`;
+`
 
 class TheNav extends HTMLElement {
   constructor() {
-    super();
+    super()
 
-    this.append(template.content.cloneNode(true));
-    this.menuBtn = document.querySelector(`.${classes.menuIcon}`);
-    this.sidebar = document.querySelector(`.${classes.sidebar}`);
-    this.toggleCheckbox = document.querySelector(`.${classes.toggleMode}`);
+    this.append(template.content.cloneNode(true))
+    this.menuBtn = document.querySelector(`.${classes.menuIcon}`)
+    this.sidebar = document.querySelector(`.${classes.sidebar}`)
+    this.toggleCheckbox = document.querySelector(`.${classes.toggleMode}`)
 
-    this.pathName = new URL(window.location).pathname;
+    this.pathName = new URL(window.location).pathname
     this.isCardList =
-      this.pathName === "/category.html" || this.pathName === "/repeat.html";
-    this.pages = Object.keys(cards).map((key) => {
-      return {
-        title: key,
-        active:
-          new URLSearchParams(window.location.search).get("title") === key,
-        addQuery: true,
-        url: "./category.html",
-      };
-    });
+      this.pathName === '/category.html' || this.pathName === '/repeat.html'
+    this.pages = categories.map(category => ({
+      title: category.name,
+      active:
+        new URLSearchParams(window.location.search).get('title') ===
+        category.name,
+      addQuery: true,
+      url: './category.html'
+    }))
     this.pages.unshift({
-      title: "Main Page",
-      active: this.getAttribute("isMain"),
-      url: "./",
-    });
+      title: 'Main Page',
+      active: this.getAttribute('isMain'),
+      url: './'
+    })
     this.pages.push({
-      title: "Statistics",
-      active: this.getAttribute("isStatistics"),
-      url: "./statistics.html",
-    });
+      title: 'Statistics',
+      active: this.getAttribute('isStatistics'),
+      url: './statistics.html'
+    })
   }
 
   connectedCallback() {
     this.pages.forEach(({ url, title, active, addQuery }) => {
       const sideBarItem = `
-        <li class="category-item ${active ? "active" : null}">
-          <a href="${url}${addQuery ? "?title=" + title : ""}">  
+        <li class="category-item ${active ? 'active' : null}">
+          <a href="${url}${addQuery ? `?title=${title}` : ''}">  
             ${title}
           </a>
-        </li>`;
+        </li>`
 
       this.sidebar
         .querySelector(`.${classes.categories}`)
-        .insertAdjacentHTML("beforeend", sideBarItem);
-    });
+        .insertAdjacentHTML('beforeend', sideBarItem)
+    })
 
-    this.menuBtn.addEventListener("click", () => {
-      this.toggleSidebar();
-    });
+    this.menuBtn.addEventListener('click', () => {
+      this.toggleSidebar()
+    })
 
     this.sidebar
       .querySelector(`.${classes.backdrop}`)
-      .addEventListener("click", () => {
-        this.toggleSidebar();
-      });
+      .addEventListener('click', () => {
+        this.toggleSidebar()
+      })
 
     this.sidebar
       .querySelector(`.${classes.sidebarClose}`)
-      .addEventListener("click", () => {
-        this.toggleSidebar();
-      });
+      .addEventListener('click', () => {
+        this.toggleSidebar()
+      })
 
     this.toggleCheckbox
-      .querySelector("input[type=checkbox]")
-      .addEventListener("change", (e) => {
+      .querySelector('input[type=checkbox]')
+      .addEventListener('change', e => {
         changeMode(
           e.target.checked,
           this.isCardList ? cardList : categoryCards,
           this.isCardList
-        );
-      });
+        )
+      })
   }
 
   toggleSidebar() {
-    this.sidebar.classList.toggle("hidden");
+    this.sidebar.classList.toggle('hidden')
     this.sidebar
       .querySelector(`.${classes.backdrop}`)
-      .classList.toggle("hidden");
+      .classList.toggle('hidden')
   }
 }
 
-window.customElements.define("the-nav", TheNav);
+window.customElements.define('the-nav', TheNav)

@@ -1,29 +1,33 @@
-import {table, resetBtn, repeatBtn} from "./elements.js";
-import "../components/theNav.js";
+import 'normalize.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '../css/styles.css'
+
+import { table, resetBtn, repeatBtn } from './elements.js'
+import '../components/theNav.js'
 
 const sort = (type, th) => {
-  const stats = JSON.parse(localStorage.getItem("statistics")).map((stat) => {
+  const stats = JSON.parse(localStorage.getItem('statistics')).map(stat => {
     return {
       ...stat,
       correctPercentage:
-        stat.wrong === 0 ? 0 : stat.correct / (stat.correct + stat.wrong),
-    };
-  });
+        stat.wrong === 0 ? 0 : stat.correct / (stat.correct + stat.wrong)
+    }
+  })
 
   if (type === lastSortType) {
     if (lastSortDirection === -1) {
       stats.sort((a, b) => {
-        return a[type] > b[type] ? -1 : a[type] === b[type] ? 0 : 1;
-      });
+        return a[type] > b[type] ? -1 : a[type] === b[type] ? 0 : 1
+      })
     } else {
       stats.sort((a, b) => {
-        return a[type] > b[type] ? 1 : a[type] === b[type] ? 0 : -1;
-      });
+        return a[type] > b[type] ? 1 : a[type] === b[type] ? 0 : -1
+      })
     }
   } else {
     stats.sort((a, b) => {
-      return a[type] > b[type] ? 1 : a[type] === b[type] ? 0 : -1;
-    });
+      return a[type] > b[type] ? 1 : a[type] === b[type] ? 0 : -1
+    })
   }
 
   const directionIconDown = `
@@ -37,7 +41,7 @@ const sort = (type, th) => {
         d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"
       />
     </svg>
-    `;
+    `
   const directionIconUp = `
     <svg
         width="24"
@@ -49,31 +53,31 @@ const sort = (type, th) => {
         d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"
       />
     </svg>
-    `;
+    `
 
-  table.querySelectorAll("th").forEach((th2) => {
-    if (th2.querySelector("svg")) {
-      th2.removeChild(th2.querySelector("svg"));
+  table.querySelectorAll('th').forEach(th2 => {
+    if (th2.querySelector('svg')) {
+      th2.removeChild(th2.querySelector('svg'))
     }
-  });
+  })
 
   th.insertAdjacentHTML(
-    "afterbegin",
+    'afterbegin',
     lastSortType === type
       ? lastSortDirection === -1
         ? directionIconUp
         : directionIconDown
       : directionIconDown
-  );
+  )
 
-  lastSortType = type;
-  lastSortDirection = lastSortDirection === -1 ? 1 : -1;
+  lastSortType = type
+  lastSortDirection = lastSortDirection === -1 ? 1 : -1
 
-  table.querySelector("tbody").innerHTML = "";
-  makeTable(stats);
-};
+  table.querySelector('tbody').innerHTML = ''
+  makeTable(stats)
+}
 
-const makeTable = (stats = JSON.parse(localStorage.getItem("statistics"))) => {
+const makeTable = (stats = JSON.parse(localStorage.getItem('statistics'))) => {
   for (const stat of stats) {
     const row = `
           <tr>
@@ -90,56 +94,56 @@ const makeTable = (stats = JSON.parse(localStorage.getItem("statistics"))) => {
                 : stat.correct / (stat.correct + stat.wrong)) * 100
             ).toFixed(2)}</td>
           </tr>
-        `;
-    table.querySelector("tbody").insertAdjacentHTML("beforeend", row);
+        `
+    table.querySelector('tbody').insertAdjacentHTML('beforeend', row)
   }
-};
+}
 
-const header = document.querySelector(".header .container");
+const header = document.querySelector('.header .container')
 
 const cols = [
-  "id",
-  "category",
-  "word",
-  "translation",
-  "clicksTraining",
-  "correct",
-  "wrong",
-  "correctPercentage",
-];
-let lastSortType = "id";
-let lastSortDirection = -1;
+  'id',
+  'category',
+  'word',
+  'translation',
+  'clicksTraining',
+  'correct',
+  'wrong',
+  'correctPercentage'
+]
+let lastSortType = 'id'
+let lastSortDirection = -1
 
-header.classList.remove("justify-content-between");
+header.classList.remove('justify-content-between')
 header.insertAdjacentHTML(
-  "beforeend",
+  'beforeend',
   '<h2 class="title-text ms-3">Statistics</h2>'
-);
-header.removeChild(header.querySelector(".toggle-mode"));
+)
+header.removeChild(header.querySelector('.toggle-mode'))
 
-makeTable();
+makeTable()
 
-table.querySelectorAll("th").forEach((th, index) => {
-  th.addEventListener("click", () => {
-    sort(cols[index], th);
-  });
-});
+table.querySelectorAll('th').forEach((th, index) => {
+  th.addEventListener('click', () => {
+    sort(cols[index], th)
+  })
+})
 
-resetBtn.addEventListener("click", () => {
-  const stats = JSON.parse(localStorage.getItem("statistics"));
+resetBtn.addEventListener('click', () => {
+  const stats = JSON.parse(localStorage.getItem('statistics'))
 
-  table.querySelector("tbody").innerHTML = "";
+  table.querySelector('tbody').innerHTML = ''
 
   for (const stat of stats) {
-    stat.clicksTraining = 0;
-    stat.correct = 0;
-    stat.wrong = 0;
+    stat.clicksTraining = 0
+    stat.correct = 0
+    stat.wrong = 0
   }
-  localStorage.setItem("statistics", JSON.stringify(stats));
+  localStorage.setItem('statistics', JSON.stringify(stats))
 
-  makeTable();
-});
+  makeTable()
+})
 
-repeatBtn.addEventListener("click", () => {
-  window.location = "./repeat.html";
-});
+repeatBtn.addEventListener('click', () => {
+  window.location = './repeat.html'
+})

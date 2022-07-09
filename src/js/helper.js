@@ -1,4 +1,4 @@
-import { bottomSection, gameBtn } from "./elements.js";
+import {bottomSection, gameBtn} from "./elements.js";
 
 export const playAudio = (src) => {
   const audio = new Audio(src);
@@ -60,7 +60,7 @@ export const fillCards = (data, parent) => {
     const li = document.createElement("li");
     const cardElement = `
         <div class="cards-list__card">
-          <img src="./${card.image}" alt="${card.word}" />
+          <img src="${card.filename}" alt="${card.word}" />
           <div class="top mt-3 px-3">
               <h3 class="title mb-0">${card.word}</h3>
               <svg xmlns="http://www.w3.org/2000/svg" class="reverse" viewBox="0 0 16 16">
@@ -80,7 +80,7 @@ export const fillCards = (data, parent) => {
     li.querySelector(".cards-list__card").addEventListener("click", () => {
       if (!JSON.parse(localStorage.getItem("isPlayMode"))) {
         const stats = JSON.parse(localStorage.getItem("statistics"));
-        playAudio(`../${card.audioSrc}`);
+        playAudio(card.audioSrc);
 
         const targetWord = stats.find((stat) => stat.word === card.word);
         targetWord.clicksTraining++;

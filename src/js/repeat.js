@@ -1,3 +1,7 @@
+import "normalize.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../css/styles.css";
+
 import {changeMode, fillCards} from "./helper.js";
 import {cardList, title} from "./elements.js";
 import {initGame} from "./startGame.js";
@@ -13,15 +17,11 @@ setTimeout(() => {
 }, 0);
 
 stats.sort((a, b) => {
-  a = a.wrong === 0 ? 0 : a.correct / (a.correct + a.wrong);
-  b = b.wrong === 0 ? 0 : b.correct / (b.correct + b.wrong);
-
-  return b - a;
+  return b.wrong - a.wrong;
 });
 
 for (const stat of stats) {
-  const val = stat.wrong === 0 ? 0 : stat.wrong / (stat.correct + stat.wrong);
-  if (val === 0 || count === 8) break;
+  if (stat.wrong === 0 || count === 8) break;
 
   data.push(stat);
   count++;
