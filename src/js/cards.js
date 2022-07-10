@@ -313,7 +313,7 @@ export const categories = [
   },
   {
     name: 'Animal (set B)',
-    filename: resolveImagePath(imageFilenames.actionB),
+    filename: resolveImagePath(imageFilenames.animalB),
     cards: [
       {
         word: 'bird',
