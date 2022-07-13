@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/styles.css'
 
 import { categories } from './cards.js'
-import { changeMode, fillCards } from './helper.js'
+import { changeMode, fillCards, setStatisticsInLocalStorage } from './helper.js'
 import { cardList, title } from './elements.js'
 import { initGame } from './startGame.js'
 import '../components/theNav.js'
@@ -17,6 +17,7 @@ title.innerText = field
 setTimeout(() => {
   changeMode(isPlayMode, cardList, true)
   initGame(category.cards)
+  setStatisticsInLocalStorage()
 }, 0)
 
 fillCards(category.cards, cardList)

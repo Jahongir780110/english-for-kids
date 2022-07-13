@@ -4,13 +4,14 @@ import '../css/styles.css'
 
 import { table, resetBtn, repeatBtn } from './elements.js'
 import '../components/theNav.js'
+import { setStatisticsInLocalStorage } from './helper.js'
 
 const sort = (type, th) => {
   const stats = JSON.parse(localStorage.getItem('statistics')).map(stat => {
     return {
       ...stat,
       correctPercentage:
-        stat.wrong === 0 ? 0 : stat.correct / (stat.correct + stat.wrong)
+        stat.wrong === 0 ? 0 : stat.correct / (stat.correct + stat.wrong),
     }
   })
 
@@ -67,7 +68,7 @@ const sort = (type, th) => {
       ? lastSortDirection === -1
         ? directionIconUp
         : directionIconDown
-      : directionIconDown
+      : directionIconDown,
   )
 
   lastSortType = type
@@ -109,15 +110,17 @@ const cols = [
   'clicksTraining',
   'correct',
   'wrong',
-  'correctPercentage'
+  'correctPercentage',
 ]
 let lastSortType = 'id'
 let lastSortDirection = -1
 
+setStatisticsInLocalStorage()
+
 header.classList.remove('justify-content-between')
 header.insertAdjacentHTML(
   'beforeend',
-  '<h2 class="title-text ms-3">Statistics</h2>'
+  '<h2 class="title-text ms-3">Statistics</h2>',
 )
 header.removeChild(header.querySelector('.toggle-mode'))
 
